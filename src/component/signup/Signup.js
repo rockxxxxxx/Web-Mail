@@ -123,102 +123,109 @@ export default function Signup() {
           onClose={onToasterclose}
         />
       )}
-
-      <div className="card" style={{ width: "70%", margin: "auto" }}>
-        <div className="card-body">
-          <h5 className="card-title signup" style={{ textAlign: "center" }}>
-            Please create an account to continue
-          </h5>
-          <hr style={{ border: "1px solid black" }} />
-          <form onSubmit={signupSubmitHandler}>
-            <div className="mb-3">
-              <label htmlFor="exampleInputEmail1" className="form-label signup">
-                Email address
-              </label>
-              <input
-                type="email"
-                name="email"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                value={enteredEmail}
-                onChange={emailChangeHandler}
-                onBlur={emailBlurHandler}
-              />
-              <div id="emailHelp" className="form-text">
-                {emailHasError ? (
-                  <p style={{ color: "red" }}>
-                    Please enter a valid email address
-                  </p>
-                ) : (
-                  `We'll never share your email with anyone else.`
-                )}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleInputPassword1"
-                className="form-label signup"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="exampleInputPassword1"
-                value={enteredPassword}
-                onChange={passwordChangeHandler}
-                onBlur={passwordBlurHandler}
-              />
-              <div id="passHelp" className="form-text">
-                {passwordHasError ? (
-                  <p style={{ color: "red" }}>
-                    Please enter a password atleast 7 character long
-                  </p>
-                ) : (
-                  `Please enter the same paasword to validate`
-                )}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label
-                htmlFor="exampleInputPassword1"
-                className="form-label signup"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="exampleInputPassword2"
-                value={enteredConfirmPassword}
-                onChange={confirmPasswordChangeHandler}
-                onBlur={confirmPasswordBlurHandler}
-              />
-              <div id="cnfPassHelp" className="form-text">
-                {confirmPasswordHasError ? (
-                  <p style={{ color: "red" }}>Your password didn't matched</p>
-                ) : (
-                  `Your password must be atleast 7 character long`
-                )}
-              </div>
-            </div>
-
-            <button
-              className="btn btn-primary"
-              type="submit"
-              disabled={isFormSumbitted ? true : false}
-            >
-              {isFormSumbitted && (
-                <span
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
+      <div className="row">
+        <div
+          className="card col-md-12"
+          style={{ width: "70%", margin: "auto" }}
+        >
+          <div className="card-body">
+            <h5 className="card-title signup" style={{ textAlign: "center" }}>
+              Please create an account to continue
+            </h5>
+            <hr style={{ border: "1px solid black" }} />
+            <form onSubmit={signupSubmitHandler}>
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleInputEmail1"
+                  className="form-label signup"
+                >
+                  Email address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  value={enteredEmail}
+                  onChange={emailChangeHandler}
+                  onBlur={emailBlurHandler}
                 />
-              )}
-              {isFormSumbitted ? "  Signingup..." : "  Signup"}
-            </button>
-          </form>
+                <div id="emailHelp" className="form-text">
+                  {emailHasError ? (
+                    <p style={{ color: "red" }}>
+                      Please enter a valid email address
+                    </p>
+                  ) : (
+                    `We'll never share your email with anyone else.`
+                  )}
+                </div>
+              </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleInputPassword1"
+                  className="form-label signup"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword1"
+                  value={enteredPassword}
+                  onChange={passwordChangeHandler}
+                  onBlur={passwordBlurHandler}
+                />
+                <div id="passHelp" className="form-text">
+                  {passwordHasError ? (
+                    <p style={{ color: "red" }}>
+                      Please enter a password atleast 7 character long
+                    </p>
+                  ) : (
+                    `Your password must be atleast 7 character long`
+                  )}
+                </div>
+              </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="exampleInputPassword1"
+                  className="form-label signup"
+                >
+                  Confirm Password
+                </label>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="exampleInputPassword2"
+                  value={enteredConfirmPassword}
+                  onChange={confirmPasswordChangeHandler}
+                  onBlur={confirmPasswordBlurHandler}
+                />
+                <div id="cnfPassHelp" className="form-text">
+                  {confirmPasswordHasError ? (
+                    <p style={{ color: "red" }}>Your password didn't matched</p>
+                  ) : (
+                    `Your password must be atleast 7 character long`
+                  )}
+                </div>
+              </div>
+
+              <button
+                className="btn btn-primary"
+                type="submit"
+                disabled={isFormSumbitted ? true : false}
+              >
+                {isFormSumbitted && (
+                  <span
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                )}
+                {isFormSumbitted ? "  Signingup..." : "  Signup"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </>
