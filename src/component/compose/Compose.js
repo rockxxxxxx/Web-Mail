@@ -137,8 +137,8 @@ export default function Compose() {
           onClose={onToasterclose}
         />
       )}
-      <div class="card" style={{ width: "70%", margin: "auto" }}>
-        <div class="card-body">
+      <div className="card" style={{ width: "70%", margin: "auto" }}>
+        <div className="card-body">
           <h5 className="card-title signup" style={{ textAlign: "center" }}>
             Compose Mail
           </h5>
@@ -210,7 +210,7 @@ export default function Compose() {
             >
               {isFormSumbitted && (
                 <span
-                  class="spinner-border spinner-border-sm"
+                  className="spinner-border spinner-border-sm"
                   role="status"
                   aria-hidden="true"
                 />
