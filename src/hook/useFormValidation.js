@@ -7,8 +7,8 @@ export default function useFormValidation(valueIsValid) {
   const isValid = valueIsValid(value);
   const hasError = !isValid && isTouched;
 
-  const inputChangeHandler = (event) => {
-    setValue(event.target.value);
+  const inputChangeHandler = (value) => {
+    setValue(value);
   };
 
   const onBlurHandler = (event) => {

@@ -3,12 +3,20 @@ import React, { useState } from "react";
 import useFormValidation from "../../hook/useFormValidation";
 import Toaster from "../toasts/Toaster";
 import "../signup/signup.css";
+import { useDispatch } from "react-redux";
+import { login } from "../../reducer/authReducer";
+
+import Cookies from "js-cookie";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length >= 7;
+var inFifteenMinutes = new Date(new Date().getTime() + 15 * 60 * 1000);
 
 export default function Login() {
   const [isFormSumbitted, setIsFormSubmitted] = useState(false);
+
+  //Reducer function dispatch
+  const dispatch = useDispatch();
 
   //Toaster
   const [isToaster, setIsToaster] = useState({
@@ -72,11 +80,25 @@ export default function Login() {
           setIsFormSubmitted(false);
           emailReset();
           passwordReset();
-          setIsToaster({
-            isVisible: true,
-            message: "You have been succssfully logged in",
-            type: "success",
+
+          console.log(response.data.email, response.data.idToken);
+          Cookies.set("email", response.data.email, {
+            expires: inFifteenMinutes,
           });
+          Cookies.set("name", response.data.displayName, {
+            expires: inFifteenMinutes,
+          });
+          Cookies.set("jwtToken", response.data.idToken, {
+            expires: inFifteenMinutes,
+          });
+
+          dispatch(
+            login({
+              email: response.data.email,
+              jwtToken: response.data.idToken,
+              displayName: response.data.displayName,
+            })
+          );
         })
         .catch((error) => {
           setIsFormSubmitted(false);
@@ -134,7 +156,7 @@ export default function Login() {
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 value={enteredEmail}
-                onChange={emailChangeHandler}
+                onChange={(event) => emailChangeHandler(event.target.value)}
                 onBlur={emailBlurHandler}
               />
               <div id="emailHelp" className="form-text">
@@ -159,7 +181,7 @@ export default function Login() {
                 className="form-control"
                 id="exampleInputPassword1"
                 value={enteredPassword}
-                onChange={passwordChangeHandler}
+                onChange={(event) => passwordChangeHandler(event.target.value)}
                 onBlur={passwordBlurHandler}
               />
               <div id="passHelp" className="form-text">

@@ -2,7 +2,15 @@ import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./navigation.css";
 
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../reducer/authReducer";
+
 export default function Navigation() {
+  //checking user is already logged in
+  const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
+
+  const dispatch = useDispatch();
+
   return (
     <div className="container">
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -26,30 +34,111 @@ export default function Navigation() {
             id="navbarSupportedContent"
           >
             <ul className="navbar-nav ">
+              {!isLoggedIn && (
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/signup"
+                  >
+                    Signup
+                  </NavLink>
+                </li>
+              )}
+
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/home"
+                  >
+                    Home
+                  </NavLink>
+                </li>
+              )}
+
               <li className="nav-item">
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? "nav-link active navLinkActive"
-                      : "nav-link active"
-                  }
-                  to="/signup"
-                >
-                  Signup
-                </NavLink>
+                {!isLoggedIn && (
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to={"/login"}
+                  >
+                    Login
+                  </NavLink>
+                )}
               </li>
-              <li className="nav-item">
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? "nav-link active navLinkActive"
-                      : "nav-link active"
-                  }
-                  to="/login"
-                >
-                  Login
-                </NavLink>
-              </li>
+
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/inbox"
+                  >
+                    Inbox (4)
+                  </NavLink>
+                </li>
+              )}
+
+              {isLoggedIn && (
+                <li className="nav-item" onClick={() => dispatch(logout())}>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/login"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              )}
+
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/composeMail"
+                  >
+                    Compose
+                  </NavLink>
+                </li>
+              )}
+
+              {isLoggedIn && (
+                <li className="nav-item" onClick={() => dispatch(logout())}>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/sent"
+                  >
+                    Sent
+                  </NavLink>
+                </li>
+              )}
+
               <li className="nav-item">
                 <NavLink
                   className={({ isActive }) =>

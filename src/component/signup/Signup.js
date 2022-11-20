@@ -148,7 +148,7 @@ export default function Signup() {
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
                   value={enteredEmail}
-                  onChange={emailChangeHandler}
+                  onChange={(event) => emailChangeHandler(event.target.value)}
                   onBlur={emailBlurHandler}
                 />
                 <div id="emailHelp" className="form-text">
@@ -173,7 +173,9 @@ export default function Signup() {
                   className="form-control"
                   id="exampleInputPassword1"
                   value={enteredPassword}
-                  onChange={passwordChangeHandler}
+                  onChange={(event) =>
+                    passwordChangeHandler(event.target.value)
+                  }
                   onBlur={passwordBlurHandler}
                 />
                 <div id="passHelp" className="form-text">
@@ -198,7 +200,9 @@ export default function Signup() {
                   className="form-control"
                   id="exampleInputPassword2"
                   value={enteredConfirmPassword}
-                  onChange={confirmPasswordChangeHandler}
+                  onChange={(event) =>
+                    confirmPasswordChangeHandler(event.target.value)
+                  }
                   onBlur={confirmPasswordBlurHandler}
                 />
                 <div id="cnfPassHelp" className="form-text">
