@@ -205,7 +205,7 @@ export default function Login() {
                   aria-hidden="true"
                 />
               )}
-              {isFormSumbitted ? "  Loggingin..." : "  Login"}
+              {isFormSumbitted ? "  Logging In..." : "  Login"}
             </button>
           </form>
         </div>

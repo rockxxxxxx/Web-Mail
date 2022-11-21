@@ -159,7 +159,7 @@ export default function Signup() {
                 <input
                   type="text"
                   className="form-control"
-                  id="name"
+                  id="name1"
                   placeholder="name"
                   value={enteredName}
                   onChange={(event) => nameChangeHandler(event.target.value)}
@@ -266,7 +266,7 @@ export default function Signup() {
                     aria-hidden="true"
                   />
                 )}
-                {isFormSumbitted ? "  Signingup..." : "  Signup"}
+                {isFormSumbitted ? "  Signing Up..." : "  Signup"}
               </button>
             </form>
           </div>

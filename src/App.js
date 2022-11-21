@@ -16,14 +16,14 @@ function App() {
   return (
     <Routes>
       <Route path="/" element=<Navigation />>
-        <Route path="/" />
+        <Route path="/" element=<Login /> />
         <Route
           path="/signup"
-          element={isLoggedIn ? <Navigate replace to="/home" /> : <Signup />}
+          element={isLoggedIn ? <Navigate replace to="/inbox" /> : <Signup />}
         />
         <Route
           path="/login"
-          element={isLoggedIn ? <Navigate replace to="/home" /> : <Login />}
+          element={isLoggedIn ? <Navigate replace to="/inbox" /> : <Login />}
         />
         <Route path="/contact" element=<Contact /> />
         <Route

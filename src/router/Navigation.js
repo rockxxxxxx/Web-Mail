@@ -12,11 +12,21 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const unread = useSelector((data) => data.mail.unreadCount);
   const email = useSelector((data) => data.authentication.email);
+
   useEffect(() => {
-    setInterval(() => {
-      dispatch(fetchInbox(email));
-    }, 2000);
-  });
+    if (isLoggedIn === true) {
+      const id = setInterval(() => {
+        dispatch(fetchInbox(email));
+      }, 2000);
+      return () => {
+        clearInterval(id);
+      };
+    }
+  }, [isLoggedIn]);
+
+  const logout1 = () => {
+    dispatch(logout());
+  };
 
   return (
     <div className="container">
@@ -56,21 +66,6 @@ export default function Navigation() {
                 </li>
               )}
 
-              {isLoggedIn && (
-                <li className="nav-item">
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive
-                        ? "nav-link active navLinkActive"
-                        : "nav-link active"
-                    }
-                    to="/home"
-                  >
-                    Home
-                  </NavLink>
-                </li>
-              )}
-
               <li className="nav-item">
                 {!isLoggedIn && (
                   <NavLink
@@ -97,21 +92,6 @@ export default function Navigation() {
                     to="/inbox"
                   >
                     Inbox ({unread})
-                  </NavLink>
-                </li>
-              )}
-
-              {isLoggedIn && (
-                <li className="nav-item" onClick={() => dispatch(logout())}>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive
-                        ? "nav-link active navLinkActive"
-                        : "nav-link active"
-                    }
-                    to="/login"
-                  >
-                    Logout
                   </NavLink>
                 </li>
               )}
@@ -158,13 +138,27 @@ export default function Navigation() {
                   Contact Us
                 </NavLink>
               </li>
+              {isLoggedIn && (
+                <li className="nav-item" onClick={logout1}>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "nav-link active navLinkActive"
+                        : "nav-link active"
+                    }
+                    to="/login"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
         </div>
       </nav>
       <hr className="hrNav" />
       <Outlet />
-      <div className="fixed-bottom">Made with love❤️ in India</div>
+      <div className="foot">Made with love❤️ in India</div>
     </div>
   );
 }
