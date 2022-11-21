@@ -146,12 +146,11 @@ export default function InboxData({
           {fromName}
         </td>
         <td>
-          {
-            <span className={readSatus === true ? "" : "unread"}>
-              {subject}--
-            </span>
-          }
-          <p
+          <span className={readSatus === true ? "" : "unread"}>
+            {subject}--
+          </span>
+
+          <span
             style={{ display: "inline-block" }}
             dangerouslySetInnerHTML={{
               __html: message.length > 50 ? message.substring(0, 50) : message,

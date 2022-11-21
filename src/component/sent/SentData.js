@@ -112,7 +112,7 @@ export default function SentData({
           </div>
 
           <br />
-          <p>{message}</p>
+          <p dangerouslySetInnerHTML={{ __html: message }} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => setModalShow(false)}>Close</Button>
@@ -121,8 +121,14 @@ export default function SentData({
       <tr onDoubleClick={() => messageView(mailId)}>
         <td>{to}</td>
         <td>
-          {<span>{subject}</span>}-
-          {message.length > 50 ? message.substring(0, 50) : message}
+          <span>{subject}--</span>
+
+          <span
+            style={{ display: "inline-block" }}
+            dangerouslySetInnerHTML={{
+              __html: message.length > 50 ? message.substring(0, 50) : message,
+            }}
+          />
         </td>
         <td>{sentOn === getCurrentDate() ? sentAt : sentOn}</td>
         <td>
