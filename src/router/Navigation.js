@@ -13,7 +13,9 @@ export default function Navigation() {
   const unread = useSelector((data) => data.mail.unreadCount);
   const email = useSelector((data) => data.authentication.email);
   useEffect(() => {
-    dispatch(fetchInbox(email));
+    setInterval(() => {
+      dispatch(fetchInbox(email));
+    }, 2000);
   });
 
   return (
