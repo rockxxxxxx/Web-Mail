@@ -134,7 +134,7 @@ export default function InboxData({
           </div>
 
           <br />
-          <p>{message}</p>
+          <p dangerouslySetInnerHTML={{ __html: message }} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={() => setModalShow(false)}>Close</Button>
@@ -148,10 +148,15 @@ export default function InboxData({
         <td>
           {
             <span className={readSatus === true ? "" : "unread"}>
-              {subject}
+              {subject}--
             </span>
           }
-          -{message.length > 50 ? message.substring(0, 50) : message}
+          <p
+            style={{ display: "inline-block" }}
+            dangerouslySetInnerHTML={{
+              __html: message.length > 50 ? message.substring(0, 50) : message,
+            }}
+          />
         </td>
         <td>{receivedOn === getCurrentDate() ? receivedAt : receivedOn}</td>
         <td>
