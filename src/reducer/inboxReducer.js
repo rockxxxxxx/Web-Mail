@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   inbox: [],
+  unreadCount: 0,
 };
 
 export const fetchInbox = createAsyncThunk("mail/fetchInbox", (email) => {
@@ -24,6 +25,7 @@ const inboxSlice = createSlice({
     });
     builder.addCase(fetchInbox.fulfilled, (state, action) => {
       state.inbox = [];
+      state.unreadCount = 0;
       state.userExpense = [];
       if (action.payload !== null) {
         for (let [key, data] of Object.entries(action.payload)) {
@@ -41,7 +43,12 @@ const inboxSlice = createSlice({
               message: data.message ? data.message : "",
               isReceived: data.isReceived ? data.isReceived : "",
               readStatus: data.readStatus ? data.readStatus : "",
+              fromName: data.fromName ? data.fromName : "",
             },
+            (state.unreadCount =
+              data.isReceived && data.readStatus === false
+                ? state.unreadCount + 1
+                : state.unreadCount + 0),
           ];
         }
       }

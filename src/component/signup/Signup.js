@@ -6,6 +6,7 @@ import "./signup.css";
 
 const emailValidator = (value) => value.includes("@");
 const passValidator = (value) => value.trim().length >= 7;
+const nameValidator = (value) => value.trim().length >= 3;
 
 export default function Signup() {
   const [isFormSumbitted, setIsFormSubmitted] = useState(false);
@@ -25,6 +26,16 @@ export default function Signup() {
       type: "",
     });
   };
+
+  //Name hook
+  const {
+    value: enteredName,
+    isValid: nameIsValid,
+    onBlurHandler: nameBlurHandler,
+    hasError: nameHasError,
+    inputChangeHandler: nameChangeHandler,
+    reset: nameReset,
+  } = useFormValidation(nameValidator);
 
   //Email hook
   const {
@@ -60,7 +71,12 @@ export default function Signup() {
 
   //checking if form is valid to make the api call
   let formIsValid = false;
-  if (emailIsValid && passwordIsValid && confirmPasswordIsValid) {
+  if (
+    emailIsValid &&
+    passwordIsValid &&
+    confirmPasswordIsValid &&
+    nameIsValid
+  ) {
     formIsValid = true;
   }
 
@@ -75,6 +91,7 @@ export default function Signup() {
           {
             email: enteredEmail,
             password: enteredPassword,
+            displayName: enteredName,
             heders: {
               "Content-Type": "application/json",
             },
@@ -85,6 +102,7 @@ export default function Signup() {
           emailReset();
           passwordReset();
           confirmPasswordReset();
+          nameReset();
           setIsToaster({
             isVisible: true,
             message: "You have been succssfully registerd",
@@ -134,6 +152,28 @@ export default function Signup() {
             </h5>
             <hr style={{ border: "1px solid black" }} />
             <form onSubmit={signupSubmitHandler}>
+              <div className="mb-3">
+                <label htmlFor="exampleInputname" className="form-label signup">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="name"
+                  placeholder="name"
+                  value={enteredName}
+                  onChange={(event) => nameChangeHandler(event.target.value)}
+                  onBlur={nameBlurHandler}
+                />
+                <div id="nameHelp" className="form-text">
+                  {nameHasError ? (
+                    <p style={{ color: "red" }}>Please enter a valid Name</p>
+                  ) : (
+                    `Let the people know how they can call you.`
+                  )}
+                </div>
+              </div>
+
               <div className="mb-3">
                 <label
                   htmlFor="exampleInputEmail1"

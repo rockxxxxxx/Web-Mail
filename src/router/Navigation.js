@@ -10,6 +10,7 @@ export default function Navigation() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
 
   const dispatch = useDispatch();
+  const unread = useSelector((data) => data.mail.unreadCount);
 
   return (
     <div className="container">
@@ -89,7 +90,7 @@ export default function Navigation() {
                     }
                     to="/inbox"
                   >
-                    Inbox (4)
+                    Inbox ({unread})
                   </NavLink>
                 </li>
               )}

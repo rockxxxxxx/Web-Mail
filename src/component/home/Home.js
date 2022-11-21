@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInbox } from "../../reducer/inboxReducer";
+import Modal from "../modal/Modal";
 
 export default function Home() {
   const data = useSelector((data) => data.mail.inbox);
@@ -12,5 +13,5 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchInbox(email));
   }, [email]);
-  return <div>Home</div>;
+  return <div>home</div>;
 }

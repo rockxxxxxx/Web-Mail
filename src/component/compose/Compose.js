@@ -62,6 +62,7 @@ export default function Compose() {
   };
 
   const userEmail = useSelector((state) => state.authentication.email);
+  const displayName = useSelector((state) => state.authentication.displayName);
   let formIsValid = false;
   if (emailIsValid && subjectIsValid && messageIsValid) {
     formIsValid = true;
@@ -84,6 +85,7 @@ export default function Compose() {
               message: enteredMessage,
               isReceived: true,
               readStatus: false,
+              fromName: displayName,
               receivedOn: getCurrentDate(),
               receivedAt: getTime(),
             }
@@ -97,6 +99,7 @@ export default function Compose() {
               subject: enteredSubject,
               message: enteredMessage,
               isReceived: false,
+
               sentOn: getCurrentDate(),
               sentAt: getTime(),
             }

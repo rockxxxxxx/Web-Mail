@@ -1,20 +1,107 @@
-import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getCurrentDate } from "../../utils/getDate";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import "./inbox.css";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchInbox } from "../../reducer/inboxReducer";
 
 export default function InboxData({
+  mailId,
   subject,
   message,
   receivedOn,
   receivedAt,
   readSatus,
+  from,
+  userEmail,
+  fromName,
 }) {
+  //Modal state
+  const [modalShow, setModalShow] = useState(false);
+  const dispatch = useDispatch();
+
+  const fname = fromName.split(" ");
+
+  const displayName = useSelector((data) => data.authentication.displayName);
+
+  //updating message status and opening modal
+  const messageView = (id) => {
+    setModalShow(true);
+    axios
+      .patch(
+        `https://web-mail-7f9cf-default-rtdb.firebaseio.com/${userEmail
+          .split(".")
+          .join("")}/${mailId}.json`,
+        {
+          readStatus: true,
+        }
+      )
+      .then((response) => {
+        dispatch(fetchInbox(userEmail));
+      });
+  };
+
   return (
     <>
-      <tr className={readSatus === true ? "" : "unread"}>
-        <td>{subject}</td>
-        <td>{message.length > 50 ? message.substring(0, 100) : message}</td>
+      <Modal
+        show={modalShow}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        style={{ color: "black" }}
+      >
+        <Modal.Header closeButton onClick={() => setModalShow(false)}>
+          <Modal.Title
+            id="contained-modal-title-vcenter"
+            style={{ fontSize: "20px" }}
+          >
+            {subject}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="container">
+            <div class="row">
+              <div class="col-1">
+                <div id="container1">
+                  <div id="name">{`${fname[0].charAt(0)}${fname[
+                    fname.length - 1
+                  ].charAt(0)}`}</div>
+                </div>
+              </div>
+              <div class="col">
+                <span style={{ fontWeight: "bold", display: "inline-block" }}>
+                  {fromName}
+                </span>
+                {`<${from}>`}
+                <br />
+                To:&nbsp;{displayName}
+                {`<${userEmail}>`}
+              </div>
+            </div>
+          </div>
+
+          <br />
+          <p>{message}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={() => setModalShow(false)}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+      <tr onClick={() => messageView(mailId)}>
+        <td className={readSatus === true ? "" : "unread"}>
+          {readSatus === true ? "" : "🏀"}&nbsp;&nbsp;&nbsp;
+          {fromName}
+        </td>
+        <td>
+          {
+            <span className={readSatus === true ? "" : "unread"}>
+              {subject}
+            </span>
+          }
+          -{message.length > 50 ? message.substring(0, 50) : message}
+        </td>
         <td>{receivedOn === getCurrentDate() ? receivedAt : receivedOn}</td>
       </tr>
     </>
