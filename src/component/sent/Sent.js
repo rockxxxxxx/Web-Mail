@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import InboxData from "./InboxData";
-import { fetchInbox } from "../../reducer/inboxReducer";
+import SentData from "./SentData";
+import { fetchSentbox } from "../../reducer/sentReducer";
 
-export default function Inbox() {
-  const inboxmail = useSelector((data) => data.mail.inbox);
+export default function Sent() {
+  const inboxmail = useSelector((data) => data.mailSent.sentbox);
   const email = useSelector((data) => data.authentication.email);
   const dispatch = useDispatch();
+
+  console.log(inboxmail);
 
   console.log(useSelector((data) => data.mail.unreadCount));
 
   console.log(email);
   useEffect(() => {
-    dispatch(fetchInbox(email));
+    dispatch(fetchSentbox(email));
   }, [email]);
 
   return (
@@ -26,17 +28,16 @@ export default function Inbox() {
           >
             <tbody>
               {inboxmail.map((data) => {
-                if (data.isReceived) {
+                if (data.isReceived === false) {
                   return (
-                    <InboxData
+                    <SentData
                       subject={data.subject}
                       message={data.message}
-                      receivedOn={data.receivedOn}
-                      receivedAt={data.receivedAt}
-                      readSatus={data.readStatus}
+                      sentOn={data.sentOn}
+                      sentAt={data.sentAt}
                       key={data.fireBaseId}
                       mailId={data.fireBaseId}
-                      from={data.from}
+                      to={data.to}
                       userEmail={email}
                       fromName={data.fromName}
                     />

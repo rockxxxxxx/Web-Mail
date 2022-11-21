@@ -9,6 +9,7 @@ import Home from "./component/home/Home";
 import { useSelector } from "react-redux";
 import Compose from "./component/compose/Compose";
 import Inbox from "./component/inbox/Inbox";
+import Sent from "./component/sent/Sent";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.authentication.isLoggedIn);
@@ -36,6 +37,11 @@ function App() {
         <Route
           path="/inbox"
           element={!isLoggedIn ? <Navigate replace to="/login" /> : <Inbox />}
+        />
+
+        <Route
+          path="/sentMail"
+          element={!isLoggedIn ? <Navigate replace to="/login" /> : <Sent />}
         />
       </Route>
     </Routes>

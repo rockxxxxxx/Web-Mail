@@ -2,46 +2,31 @@ import React, { useState } from "react";
 import { getCurrentDate } from "../../utils/getDate";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import "./inbox.css";
+import "./sentbox.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInbox } from "../../reducer/inboxReducer";
+import { fetchSentbox } from "../../reducer/sentReducer";
 import Toaster from "../toasts/Toaster";
 
-export default function InboxData({
+export default function SentData({
   mailId,
   subject,
   message,
-  receivedOn,
-  receivedAt,
-  readSatus,
-  from,
+  sentOn,
+  sentAt,
   userEmail,
   fromName,
+  to,
 }) {
   //Modal state
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
-
-  const fname = fromName.split(" ");
 
   const displayName = useSelector((data) => data.authentication.displayName);
 
   //updating message status and opening modal
   const messageView = (id) => {
     setModalShow(true);
-    axios
-      .patch(
-        `https://web-mail-7f9cf-default-rtdb.firebaseio.com/${userEmail
-          .split(".")
-          .join("")}/${mailId}.json`,
-        {
-          readStatus: true,
-        }
-      )
-      .then((response) => {
-        dispatch(fetchInbox(userEmail));
-      });
   };
 
   //Deleting the mail
@@ -58,7 +43,7 @@ export default function InboxData({
           message: "Your mail has been successfully deleted",
           type: "success",
         });
-        dispatch(fetchInbox(userEmail));
+        dispatch(fetchSentbox(userEmail));
       })
       .catch(() => {
         setIsToaster({
@@ -114,20 +99,13 @@ export default function InboxData({
             <div class="row">
               <div class="col-1">
                 <div id="container1">
-                  <div id="name">{`${fname[0].charAt(0).toUpperCase()}${fname[
-                    fname.length - 1
-                  ]
-                    .charAt(0)
-                    .toUpperCase()}`}</div>
+                  <div id="name">{`${to.substring(0, 1).toUpperCase()}`}</div>
                 </div>
               </div>
               <div class="col">
-                <span style={{ fontWeight: "bold", display: "inline-block" }}>
-                  {fromName}
-                </span>
-                {`<${from}>`}
+                <span>To: {`<${to}>`}</span>
                 <br />
-                To:&nbsp;{displayName}
+                From:&nbsp;{displayName}
                 {`<${userEmail}>`}
               </div>
             </div>
@@ -141,19 +119,12 @@ export default function InboxData({
         </Modal.Footer>
       </Modal>
       <tr onDoubleClick={() => messageView(mailId)}>
-        <td className={readSatus === true ? "" : "unread"}>
-          {readSatus === true ? "" : "🏀"}&nbsp;&nbsp;&nbsp;
-          {fromName}
-        </td>
+        <td>{to}</td>
         <td>
-          {
-            <span className={readSatus === true ? "" : "unread"}>
-              {subject}
-            </span>
-          }
-          -{message.length > 50 ? message.substring(0, 50) : message}
+          {<span>{subject}</span>}-
+          {message.length > 50 ? message.substring(0, 50) : message}
         </td>
-        <td>{receivedOn === getCurrentDate() ? receivedAt : receivedOn}</td>
+        <td>{sentOn === getCurrentDate() ? sentAt : sentOn}</td>
         <td>
           <button onClick={() => deleteMail(mailId)}>❌</button>
         </td>

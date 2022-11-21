@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import "./navigation.css";
-
+import { fetchInbox } from "../reducer/inboxReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../reducer/authReducer";
 
@@ -11,6 +11,10 @@ export default function Navigation() {
 
   const dispatch = useDispatch();
   const unread = useSelector((data) => data.mail.unreadCount);
+  const email = useSelector((data) => data.authentication.email);
+  useEffect(() => {
+    dispatch(fetchInbox(email));
+  });
 
   return (
     <div className="container">
@@ -126,14 +130,14 @@ export default function Navigation() {
               )}
 
               {isLoggedIn && (
-                <li className="nav-item" onClick={() => dispatch(logout())}>
+                <li className="nav-item">
                   <NavLink
                     className={({ isActive }) =>
                       isActive
                         ? "nav-link active navLinkActive"
                         : "nav-link active"
                     }
-                    to="/sent"
+                    to="/sentMail"
                   >
                     Sent
                   </NavLink>
