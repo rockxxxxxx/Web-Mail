@@ -5,11 +5,9 @@ import SentData from "./SentData";
 import { fetchSentbox } from "../../reducer/sentReducer";
 
 export default function Sent() {
-  const inboxmail = useSelector((data) => data.mailSent.sentbox);
+  const sentboxmail = useSelector((data) => data.mailSent.sentbox);
   const email = useSelector((data) => data.authentication.email);
   const dispatch = useDispatch();
-
-  console.log(inboxmail);
 
   console.log(useSelector((data) => data.mail.unreadCount));
 
@@ -21,13 +19,13 @@ export default function Sent() {
   return (
     <div class="card" style={{ backgroundColor: "#FFE1E1", padding: "5px" }}>
       <div class="card-body">
-        {inboxmail.length > 0 && (
+        {sentboxmail.length > 0 && (
           <table
             class="table table-striped table-hover"
             style={{ cursor: "pointer" }}
           >
             <tbody>
-              {inboxmail.map((data) => {
+              {sentboxmail.map((data) => {
                 if (data.isReceived === false) {
                   return (
                     <SentData
