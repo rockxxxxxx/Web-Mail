@@ -16,7 +16,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element=<Navigation />>
-        <Route path="/" element=<Login /> />
+        <Route
+          path="/"
+          element={!isLoggedIn ? <Navigate replace to="/login" /> : <Inbox />}
+        />
         <Route
           path="/signup"
           element={isLoggedIn ? <Navigate replace to="/inbox" /> : <Signup />}
