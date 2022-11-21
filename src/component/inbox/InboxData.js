@@ -6,6 +6,7 @@ import "./inbox.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchInbox } from "../../reducer/inboxReducer";
+import Toaster from "../toasts/Toaster";
 
 export default function InboxData({
   mailId,
@@ -43,8 +44,56 @@ export default function InboxData({
       });
   };
 
+  //Deleting the mail
+  const deleteMail = (id) => {
+    axios
+      .delete(
+        `https://web-mail-7f9cf-default-rtdb.firebaseio.com/${userEmail
+          .split(".")
+          .join("")}/${id}.json`
+      )
+      .then(() => {
+        setIsToaster({
+          isVisible: true,
+          message: "Your mail has been successfully deleted",
+          type: "success",
+        });
+        dispatch(fetchInbox(userEmail));
+      })
+      .catch(() => {
+        setIsToaster({
+          isVisible: true,
+          message: "Something went wrong! Please try again later",
+          type: "danger",
+        });
+      });
+  };
+
+  //Toaster
+  const [isToaster, setIsToaster] = useState({
+    isVisible: false,
+    message: "",
+    type: "",
+  });
+
+  //Toaster Close
+  const onToasterclose = () => {
+    setIsToaster({
+      isVisible: false,
+      message: "",
+      type: "",
+    });
+  };
+
   return (
     <>
+      {isToaster.isVisible && (
+        <Toaster
+          type={isToaster.type}
+          message={isToaster.message}
+          onClose={onToasterclose}
+        />
+      )}
       <Modal
         show={modalShow}
         size="lg"
@@ -89,7 +138,7 @@ export default function InboxData({
           <Button onClick={() => setModalShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
-      <tr onClick={() => messageView(mailId)}>
+      <tr onDoubleClick={() => messageView(mailId)}>
         <td className={readSatus === true ? "" : "unread"}>
           {readSatus === true ? "" : "🏀"}&nbsp;&nbsp;&nbsp;
           {fromName}
@@ -103,6 +152,9 @@ export default function InboxData({
           -{message.length > 50 ? message.substring(0, 50) : message}
         </td>
         <td>{receivedOn === getCurrentDate() ? receivedAt : receivedOn}</td>
+        <td>
+          <button onClick={() => deleteMail(mailId)}>❌</button>
+        </td>
       </tr>
     </>
   );
