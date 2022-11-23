@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Toaster({ type, message, onClose }) {
+  useEffect(() => {
+    const id = setInterval(() => {
+      onClose();
+    }, 2000);
+    return () => {
+      clearInterval(id);
+    };
+  }, [message]);
   return (
     <div
       className={`toast show align-items-center text-white bg-${type} border-0 position-absolute top-0 start-50 translate-middle-x`}
