@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
+
+const decode = Cookies.get("jwtToken")
+  ? jwt_decode(Cookies.get("jwtToken"))
+  : "";
 
 const initialState = {
   isLoggedIn: Cookies.get("jwtToken") ? true : false,
   jwtToken: Cookies.get("jwtToken") ? Cookies.get("jwtToken") : "",
-  email: Cookies.get("email") ? Cookies.get("email") : "",
-  displayName: Cookies.get("name") ? Cookies.get("name") : "",
+  email: decode ? decode.email : "",
+  displayName: decode ? decode.display_name : "",
 };
 
 const authSlice = createSlice({

@@ -82,12 +82,7 @@ export default function Login() {
           passwordReset();
 
           console.log(response.data.email, response.data.idToken);
-          Cookies.set("email", response.data.email, {
-            expires: inFifteenMinutes,
-          });
-          Cookies.set("name", response.data.displayName, {
-            expires: inFifteenMinutes,
-          });
+
           Cookies.set("jwtToken", response.data.idToken, {
             expires: inFifteenMinutes,
           });
