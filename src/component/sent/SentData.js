@@ -118,7 +118,7 @@ export default function SentData({
           <Button onClick={() => setModalShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
-      <tr onDoubleClick={() => messageView(mailId)}>
+      <tr onClick={() => messageView(mailId)}>
         <td>{to}</td>
         <td>
           <span>{subject}--</span>
@@ -132,7 +132,14 @@ export default function SentData({
         </td>
         <td>{sentOn === getCurrentDate() ? sentAt : sentOn}</td>
         <td>
-          <button onClick={() => deleteMail(mailId)}>❌</button>
+          <button
+            onClick={(event) => {
+              deleteMail(mailId);
+              event.stopPropagation();
+            }}
+          >
+            ❌
+          </button>
         </td>
       </tr>
     </>

@@ -28,7 +28,7 @@ export default function InboxData({
   const displayName = useSelector((data) => data.authentication.displayName);
 
   //updating message status and opening modal
-  const messageView = (id) => {
+  const messageView = (id, event) => {
     setModalShow(true);
     axios
       .patch(
@@ -45,7 +45,7 @@ export default function InboxData({
   };
 
   //Deleting the mail
-  const deleteMail = (id) => {
+  const deleteMail = (id, event) => {
     axios
       .delete(
         `https://web-mail-7f9cf-default-rtdb.firebaseio.com/${userEmail
@@ -140,7 +140,7 @@ export default function InboxData({
           <Button onClick={() => setModalShow(false)}>Close</Button>
         </Modal.Footer>
       </Modal>
-      <tr onDoubleClick={() => messageView(mailId)}>
+      <tr onClick={() => messageView(mailId)}>
         <td className={readSatus === true ? "" : "unread"}>
           {readSatus === true ? "" : "🏀"}&nbsp;&nbsp;&nbsp;
           {fromName}
@@ -159,7 +159,14 @@ export default function InboxData({
         </td>
         <td>{receivedOn === getCurrentDate() ? receivedAt : receivedOn}</td>
         <td>
-          <button onClick={() => deleteMail(mailId)}>❌</button>
+          <button
+            onClick={(event) => {
+              deleteMail(mailId);
+              event.stopPropagation();
+            }}
+          >
+            ❌
+          </button>
         </td>
       </tr>
     </>
